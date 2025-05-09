@@ -451,13 +451,21 @@ public class ConcertManagement {
                     sc.nextLine(); // Clear buffer
 
                     Attendee attendee;
+
                     if (!manager.getUsers().containsKey(userId)) {
                         System.out.print("Enter your name: ");
                         String name = sc.nextLine();
                         attendee = new Attendee(userId, name);
                         manager.addUser(attendee);
                     } else {
-                        attendee = (Attendee) manager.getUsers().get(userId);
+                        User user = manager.getUsers().get(userId);
+
+                        if (user instanceof Attendee) {
+                            attendee = (Attendee) user;
+                        } else {
+                            System.out.println("❌ This user is not an attendee. Only attendees can book tickets.");
+                            break;
+                        }
                     }
 
                     System.out.print("Enter Concert ID to book ticket: ");
